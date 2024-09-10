@@ -32,18 +32,25 @@
 
 ## Changelog
 
-- 2024-09-09
-  - Initial release
+* September 9, 2024
+  * Initial release
 
 # General information
-* All pairs for streams are **uppercase**.
+
+* All pairs for streams are **UPPERCASE**.
 * Websocket server will send a `ping` event every 20 seconds.
     * If the websocket server does not receive a `pong` event back from the connection within a 60 seconds period, the connection will be disconnected.
     * When you receive a ping, you must send a pong with a copy of ping's payload as soon as possible.
 
 ## Endpoints
-  - beta environment: **wss://oapi-beta.myx.finance:443/ws**
-  - production environment: **wss://oapi.myx.finance:443/ws**
+
+**Beta Env**
+  
+  `wss://oapi-beta.myx.finance:443/ws`
+
+**Prod Env**
+  
+  `wss://oapi.myx.finance:443/ws`
 
 ## Rate Limits
 * There is a limit of **60 connections per attempt every 1 minute per IP**.
@@ -197,23 +204,23 @@ e.g.
 
 ### Response codes and messages
 
-- 9200: _No message_
+* 9200: _No message_
 
-  The server successfully handled the client's request
-- 9901: **Illegal Parameter**
+  _The server successfully handled the client's request._
+* 9901: **Illegal Parameter**
 
-  Parameter errors, including: format, range, value, etc.
-- 9401: **Unauthorized**
+  _Parameter errors, including: format, range, value, etc._
+* 9401: **Unauthorized**
 
-  Authentication failure of the user, including signature error, expiration, etc.
-- 9403: **Forbidden**
+  _Authentication failure of the user, including signature error, expiration, etc._
+* 9403: **Forbidden**
 
-  Unprivileged operations, e.g., unauthorized access to private stream.
-- 9429: **Too many requests**
+  _Unprivileged operations, e.g., unauthorized access to private stream._
+* 9429: **Too many requests**
 
-- 9500: **Internal Server Error**
+* 9500: **Internal Server Error**
 
-  Any unknown error not caused by the client.
+  _Any unknown error not caused by the client._
 
 ## Supported Chains
 
@@ -274,14 +281,14 @@ e.g.
 {
   "type": "candle.42161.BTCUSDC_5m",
   "data": {
-    "t": 1725811200   // Candle start time(Unix timestamp: s)
-    "o": "65633.66",  // Open price
-    "c": "65633.66",  // Close price
-    "h": "66123.45",  // High price
-    "l": "65000.00",  // Low price
-    "v": "1.23",      // Volume
-    "T": "80811.32",  // Turnover
-    "E": 1725844149000   // Event time(Unix timestamp: ms)
+    "t": 1725811200     // Candle start time(Unix timestamp: s)
+    "o": "65633.66",    // Open price
+    "c": "65633.66",    // Close price
+    "h": "66123.45",    // High price
+    "l": "65000.00",    // Low price
+    "v": "1.23",        // Volume
+    "T": "80811.32",    // Turnover
+    "E": 1725844149000  // Event time(Unix timestamp: ms)
   }
 }
 ```
@@ -311,7 +318,7 @@ e.g.
       "p": "65535.00",
       "s": "0.12",
     }],                   // Bids
-    "E": 1725844149000   // Event time(Unix timestamp: ms)
+    "E": 1725844149000    // Event time(Unix timestamp: ms)
   }
 }
 ```
@@ -376,7 +383,7 @@ e.g.
     "S": "LONG",        // Side: LONG/SHORT
     "p": "65535.00",    // Price
     "s": "0.12",        // Size
-    "t": 1725844149     // Trade time(Unix timestamp: s)
+    "t": 1725844149     // Liquidation time(Unix timestamp: s)
     "E": 1725844149000  // Event time(Unix timestamp: ms)
   }
 }
