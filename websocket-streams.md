@@ -29,8 +29,8 @@
 
 # General information
 * The base endpoint is:
- - beta environment: **wss://oapi-beta.myx.finance:443/ws**
- - production environment: **wss://oapi.myx.finance:443/ws**
+  - beta environment: **wss://oapi-beta.myx.finance:443/ws**
+  - production environment: **wss://oapi.myx.finance:443/ws**
 * All pairs for streams are **uppercase**
 * Websocket server will send a `ping` event every 20 seconds.
     * If the websocket server does not receive a `pong` event back from the connection within a 60 seconds period, the connection will be disconnected.
