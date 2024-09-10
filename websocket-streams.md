@@ -2,8 +2,10 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Web Socket Streams for MYX (2024-09-09)](#web-socket-streams-for-myx-2024-09-09)
+- [Web Socket Streams for MYX](#web-socket-streams-for-myx)
+  - [Changelog](#changelog)
 - [General information](#general-information)
+  - [Endpoints](#endpoints)
   - [Rate Limits](#rate-limits)
   - [Message Interactions](#message-interactions)
     - [Message Format](#message-format)
@@ -12,6 +14,7 @@
     - [Ping/Pong](#pingpong)
     - [Sign In](#sign-in)
     - [Response codes and messages](#response-codes-and-messages)
+  - [Supported Chains](#supported-chains)
 - [Public Stream information](#public-stream-information)
   - [Ticker Streams](#ticker-streams)
   - [Candle Streams](#candle-streams)
@@ -25,16 +28,22 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Web Socket Streams for MYX (2024-09-09)
+# Web Socket Streams for MYX
+
+## Changelog
+
+- 2024-09-09
+  - Initial release
 
 # General information
-* The base endpoint is:
-  - beta environment: **wss://oapi-beta.myx.finance:443/ws**
-  - production environment: **wss://oapi.myx.finance:443/ws**
 * All pairs for streams are **uppercase**.
 * Websocket server will send a `ping` event every 20 seconds.
     * If the websocket server does not receive a `pong` event back from the connection within a 60 seconds period, the connection will be disconnected.
     * When you receive a ping, you must send a pong with a copy of ping's payload as soon as possible.
+
+## Endpoints
+  - beta environment: **wss://oapi-beta.myx.finance:443/ws**
+  - production environment: **wss://oapi.myx.finance:443/ws**
 
 ## Rate Limits
 * There is a limit of **60 connections per attempt every 1 minute per IP**.
@@ -73,7 +82,7 @@
 args: Array of stream names to subscribe to
 
 * Request
-```json
+```json5
 {
   "request": "sub",
   "args": ["quote.42161.BTCUSDC", "order.42161.BTCUSDC"]
@@ -81,7 +90,7 @@ args: Array of stream names to subscribe to
 ```
 
 * Response(Successful)
-```json
+```json5
 {
   "type": "sub",
   "data": {
@@ -92,7 +101,7 @@ args: Array of stream names to subscribe to
 }
 ```
 * Response(Failed)
-```json
+```json5
 {
   "type": "sub",
   "data": {
@@ -106,7 +115,7 @@ args: Array of stream names to subscribe to
 ### Unsubscribe to a stream
 args: Array of stream names to unsubscribe to
 * Request
-```json
+```json5
 {
   "request": "unsub",
   "args": ["quote.42161.BTCUSDC"]
@@ -115,7 +124,7 @@ args: Array of stream names to unsubscribe to
 * Response
 
   When subscribing to multiple streams at once, the responses for each stream will be sent separately.
-```json
+```json5
   {
     "type": "unsub",
     "data": {
@@ -133,14 +142,14 @@ Ping messages are sent by the server, and when the client receives them, it need
 **If the server does not receive a pong message three times in a row, it will close the connection.**
 
 * Ping
-```json
+```json5
 {
   "type": "ping",
   "data": 1725844149000 // Unix timestamp(ms)
 }
 ```
 * Pong
-```json
+```json5
 {
   "request": "pong",
   "args": 1725844149000 // the data of the ping message
@@ -167,7 +176,7 @@ e.g.
   - token: `ecdsa-1.0x0902Bd63695433b5303c150e7fACE75Da05A4a87-S62zdaX8HbUkajsT-1725844149.0x7e85ee11ac699ff5fcf2efcec7bd84c6a591687e4517e8f1d2464029aaaec98d3599211c99edd83c4731aa8bacecc8ccb7136265f1c01ca1aad94807b12325301c`
 
 * Request
-```json
+```json5
 {
   "request": "signin",
   "args": "ecdsa-1.0x0902Bd63695433b5303c150e7fACE75Da05A4a87-S62zdaX8HbUkajsT-1725844149.0x7e85ee11ac699ff5fcf2efcec7bd84c6a591687e4517e8f1d2464029aaaec98d3599211c99edd83c4731aa8bacecc8ccb7136265f1c01ca1aad94807b12325301c" // token
@@ -175,7 +184,7 @@ e.g.
 ```
 
 * Response
-```json
+```json5
 {
   "type": "signin",
   "data": {
@@ -206,6 +215,23 @@ e.g.
 
   Any unknown error not caused by the client.
 
+## Supported Chains
+
+**Beta Env**
+
+| Chain Name       | Chain ID |
+|------------------|----------|
+| Arbitrum Sepolia | 421614   |
+| Linea Sepolia    | 59141    |
+
+**Prod Env**
+
+
+| Chain Name     | Chain ID |
+|----------------|----------|
+| Arbitrum One   | 42161    |
+| Linea Mainnet  | 59144    |
+| Scroll Mainnet | 534352   |
 
 # Public Stream information
 
@@ -215,7 +241,7 @@ e.g.
 **Stream Name:** `ticker.{chainId}.{pair}`
 
 **Payload:**
-```json
+```json5
 {
   "type": "ticker.42161.BTCUSDC",
   "data": {
@@ -244,7 +270,7 @@ e.g.
 
 
 **Payload:**
-```json
+```json5
 {
   "type": "candle.42161.BTCUSDC_5m",
   "data": {
@@ -267,7 +293,7 @@ e.g.
 **Level:** `10`/`20`
 
 **Payload:**
-```json
+```json5
 {
   "type": "orderbook.42161.BTCUSDC_10",
   "data": {
@@ -297,7 +323,7 @@ e.g.
 **Level:** `10`/`20`
 
 **Payload:**
-```json
+```json5
 {
   "type": "trigger.42161.BTCUSDC_10",
   "data": {
@@ -325,7 +351,7 @@ e.g.
 **Stream Name:** `trade.{chainId}.{pair}`
 
 **Payload:**
-```json
+```json5
 {
   "type": "trade.42161.BTCUSDC",
   "data": {
@@ -343,7 +369,7 @@ e.g.
 **Stream Name:** `liquidation.{chainId}.{pair}`
 
 **Payload:**
-```json
+```json5
 {
   "type": "liquidation.42161.BTCUSDC",
   "data": {
@@ -367,7 +393,7 @@ To subscribe to messages for all pairs in the chain, set pair to `*`.
 **Payload:**
 
 - New order
-```json
+```json5
 {
   "type": "order.42161.BTCUSDC",
   "data": {
@@ -384,7 +410,7 @@ To subscribe to messages for all pairs in the chain, set pair to `*`.
 }
 ```
 - Execute order
-```json
+```json5
 {
   "type": "order.42161.BTCUSDC",
   "data": {
@@ -403,7 +429,7 @@ To subscribe to messages for all pairs in the chain, set pair to `*`.
 }
 ```
 - Cancel order
-```json
+```json5
 {
   "type": "order.42161.BTCUSDC",
   "data": {
@@ -424,7 +450,7 @@ To subscribe to messages for all pairs in the chain, set pair to `*`.
 To subscribe to messages for all pairs in the chain, set pair to `*`.
 
 **Payload:**
-```json
+```json5
 {
   "type": "position.42161.BTCUSDC",
   "data": {
