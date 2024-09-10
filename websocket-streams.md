@@ -28,8 +28,9 @@
 # Web Socket Streams for MYX (2024-09-09)
 
 # General information
-* The base endpoint is: **wss://oapi.myx.finance:443/ws**
-* Combined stream events are wrapped as follows: **{"stream":"\<streamName\>","data":\<rawPayload\>}**
+* The base endpoint is:
+ - beta environment: **wss://oapi-beta.myx.finance:443/ws**
+ - production environment: **wss://oapi.myx.finance:443/ws**
 * All pairs for streams are **uppercase**
 * Websocket server will send a `ping` event every 20 seconds.
     * If the websocket server does not receive a `pong` event back from the connection within a 60 seconds period, the connection will be disconnected.
@@ -37,7 +38,7 @@
 
 ## Rate Limits
 * There is a limit of **60 connections per attempt every 1 minute per IP**.
-* A single connection can listen to a maximum of 10 streams(Pending).
+* A single connection can listen to a maximum of 10 streams.
 * Connections exceeding the limit will be disconnected;
 * Repeatedly disconnected IPs may be disabled.
 
