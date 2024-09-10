@@ -86,7 +86,7 @@
 | data      | object            |                                              |
 
 ### Subscribe to a stream
-args: Array of stream names to subscribe to
+**args**: Array of stream names to subscribe to
 
 * Request
 ```json5
@@ -113,14 +113,14 @@ args: Array of stream names to subscribe to
   "type": "sub",
   "data": {
     "code": 9901,
-    "message": "candle interval invalid",
+    "message": "Illegal Parameter",
     "data": ["quote.42161.BTCUSDC"]
   }
 }
 ```
 
 ### Unsubscribe to a stream
-args: Array of stream names to unsubscribe to
+**args**: Array of stream names to unsubscribe to
 * Request
 ```json5
 {
@@ -165,22 +165,22 @@ Ping messages are sent by the server, and when the client receives them, it need
 
 ### Sign In
 
-1. Generate a random string of 16 characters (`nonce`) and expiration time (`expires`)
-   - nonce: can only use [a-zA-Z0-9] in the characters
-   - expires: the unix timestamp(s)
-2. Assembling a message to be signed using nonce and expires(`message`)
-   - message: `Action: MYX Signature Verification\nNonce: {nonce}-{expires}`, *Note the spaces and line breaks*.
-3. Sign the message with the wallet's private key(`signature`)
+1. Generate a random string of 16 characters (_nonce_) and expiration time (_expires_)
+   * nonce: can only use [a-zA-Z0-9] in the characters
+   * expires: the unix timestamp(s)
+2. Assembling a message to be signed using nonce and expires(_message_)
+   * message: `Action: MYX Signature Verification\nNonce: {nonce}-{expires}`, *Note the spaces and line breaks*.
+3. Sign the message with the wallet's private key(_signature_)
 4. Generate a token
-   - token: `ecdsa-1.{wallet address}-{nonce}-{expires}.{signature}`
+   * token: `ecdsa-1.{wallet address}-{nonce}-{expires}.{signature}`
 
 e.g.
-  - nonce:`S62zdaX8HbUkajsT`
-  - expires: `1725844149`
-  - message: `Action: MYX Signature Verification\nNonce: S62zdaX8HbUkajsT-1725844149`
-  - wallet address: `0x0902Bd63695433b5303c150e7fACE75Da05A4a87`
-  - signature: `0x7e85ee11ac699ff5fcf2efcec7bd84c6a591687e4517e8f1d2464029aaaec98d3599211c99edd83c4731aa8bacecc8ccb7136265f1c01ca1aad94807b12325301c`
-  - token: `ecdsa-1.0x0902Bd63695433b5303c150e7fACE75Da05A4a87-S62zdaX8HbUkajsT-1725844149.0x7e85ee11ac699ff5fcf2efcec7bd84c6a591687e4517e8f1d2464029aaaec98d3599211c99edd83c4731aa8bacecc8ccb7136265f1c01ca1aad94807b12325301c`
+  * nonce: _S62zdaX8HbUkajsT_
+  * expires: _1725844149_
+  * message: _Action: MYX Signature Verification\nNonce: S62zdaX8HbUkajsT-1725844149_
+  * wallet address: _0x0902Bd63695433b5303c150e7fACE75Da05A4a87_
+  * signature: _0x7e85ee11ac699ff5fcf2efcec7bd84c6a591687e4517e8f1d2464029aaaec98d3599211c99edd83c4731aa8bacecc8ccb7136265f1c01ca1aad94807b12325301c_
+  * token: _ecdsa-1.0x0902Bd63695433b5303c150e7fACE75Da05A4a87-S62zdaX8HbUkajsT-1725844149.0x7e85ee11ac699ff5fcf2efcec7bd84c6a591687e4517e8f1d2464029aaaec98d3599211c99edd83c4731aa8bacecc8ccb7136265f1c01ca1aad94807b12325301c_
 
 * Request
 ```json5
@@ -247,7 +247,7 @@ e.g.
 
 **Stream Name:** `ticker.{chainId}.{pair}`
 
-**Payload:**
+**Message:**
 ```json5
 {
   "type": "ticker.42161.BTCUSDC",
@@ -269,14 +269,14 @@ e.g.
 **Stream Name:** `candle.{chainId}.{pair}_{interval}`
 
 **Interval:** `1m`/`5m`/`15m`/`30m`/`1h`/`4h`/`1d`/`1w`/`1M`
-- m: minutes
-- h: hours
-- d: days
-- w: weeks
-- M: months
+* m: minutes
+* h: hours
+* d: days
+* w: weeks
+* M: months
 
 
-**Payload:**
+**Message:**
 ```json5
 {
   "type": "candle.42161.BTCUSDC_5m",
@@ -299,7 +299,7 @@ e.g.
 
 **Level:** `10`/`20`
 
-**Payload:**
+**Message:**
 ```json5
 {
   "type": "orderbook.42161.BTCUSDC_10",
@@ -329,7 +329,7 @@ e.g.
 
 **Level:** `10`/`20`
 
-**Payload:**
+**Message:**
 ```json5
 {
   "type": "trigger.42161.BTCUSDC_10",
@@ -357,7 +357,7 @@ e.g.
 
 **Stream Name:** `trade.{chainId}.{pair}`
 
-**Payload:**
+**Message:**
 ```json5
 {
   "type": "trade.42161.BTCUSDC",
@@ -375,7 +375,7 @@ e.g.
 
 **Stream Name:** `liquidation.{chainId}.{pair}`
 
-**Payload:**
+**Message:**
 ```json5
 {
   "type": "liquidation.42161.BTCUSDC",
@@ -397,9 +397,9 @@ e.g.
 
 To subscribe to messages for all pairs in the chain, set pair to `*`.
 
-**Payload:**
+**Message:**
 
-- New order
+* New order
 ```json5
 {
   "type": "order.42161.BTCUSDC",
@@ -416,7 +416,7 @@ To subscribe to messages for all pairs in the chain, set pair to `*`.
   }
 }
 ```
-- Execute order
+* Execute order
 ```json5
 {
   "type": "order.42161.BTCUSDC",
@@ -435,7 +435,7 @@ To subscribe to messages for all pairs in the chain, set pair to `*`.
   }
 }
 ```
-- Cancel order
+* Cancel order
 ```json5
 {
   "type": "order.42161.BTCUSDC",
@@ -456,7 +456,7 @@ To subscribe to messages for all pairs in the chain, set pair to `*`.
 
 To subscribe to messages for all pairs in the chain, set pair to `*`.
 
-**Payload:**
+**Message:**
 ```json5
 {
   "type": "position.42161.BTCUSDC",
