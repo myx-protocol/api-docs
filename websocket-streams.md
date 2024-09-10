@@ -31,7 +31,7 @@
 * The base endpoint is:
   - beta environment: **wss://oapi-beta.myx.finance:443/ws**
   - production environment: **wss://oapi.myx.finance:443/ws**
-* All pairs for streams are **uppercase**
+* All pairs for streams are **uppercase**.
 * Websocket server will send a `ping` event every 20 seconds.
     * If the websocket server does not receive a `pong` event back from the connection within a 60 seconds period, the connection will be disconnected.
     * When you receive a ping, you must send a pong with a copy of ping's payload as soon as possible.
@@ -39,7 +39,7 @@
 ## Rate Limits
 * There is a limit of **60 connections per attempt every 1 minute per IP**.
 * A single connection can listen to a maximum of 10 streams.
-* Connections exceeding the limit will be disconnected;
+* Connections exceeding the limit will be disconnected.
 * Repeatedly disconnected IPs may be disabled.
 
 ## Message Interactions
@@ -152,24 +152,25 @@ Ping messages are sent by the server, and when the client receives them, it need
 1. Generate a random string of 16 characters (`nonce`) and expiration time (`expires`)
    - nonce: can only use [a-zA-Z0-9] in the characters
    - expires: the unix timestamp(s)
-2. Assembling a message to be signed using nonce and expires(`message`).
+2. Assembling a message to be signed using nonce and expires(`message`)
    - message: `Action: MYX Signature Verification\nNonce: {nonce}-{expires}`, *Note the spaces and line breaks*.
-3. use the wallet key to sign the message (`signature`)
+3. Sign the message with the wallet's private key(`signature`)
 4. Generate a token
-   - token: `ecdsa-2.{nonce}-{expires}.{signature}`
+   - token: `ecdsa-1.{wallet address}-{nonce}-{expires}.{signature}`
 
 e.g.
   - nonce:`S62zdaX8HbUkajsT`
   - expires: `1725844149`
   - message: `Action: MYX Signature Verification\nNonce: S62zdaX8HbUkajsT-1725844149`
+  - wallet address: `0x0902Bd63695433b5303c150e7fACE75Da05A4a87`
   - signature: `0x7e85ee11ac699ff5fcf2efcec7bd84c6a591687e4517e8f1d2464029aaaec98d3599211c99edd83c4731aa8bacecc8ccb7136265f1c01ca1aad94807b12325301c`
-  - token: `ecdsa-2.S62zdaX8HbUkajsT-1725844149.0x7e85ee11ac699ff5fcf2efcec7bd84c6a591687e4517e8f1d2464029aaaec98d3599211c99edd83c4731aa8bacecc8ccb7136265f1c01ca1aad94807b12325301c`
+  - token: `ecdsa-1.0x0902Bd63695433b5303c150e7fACE75Da05A4a87-S62zdaX8HbUkajsT-1725844149.0x7e85ee11ac699ff5fcf2efcec7bd84c6a591687e4517e8f1d2464029aaaec98d3599211c99edd83c4731aa8bacecc8ccb7136265f1c01ca1aad94807b12325301c`
 
 * Request
 ```json
 {
   "request": "signin",
-  "args": "ecdsa-2.S62zdaX8HbUkajsT-1725844149.0x7e85ee11ac699ff5fcf2efcec7bd84c6a591687e4517e8f1d2464029aaaec98d3599211c99edd83c4731aa8bacecc8ccb7136265f1c01ca1aad94807b12325301c" // token
+  "args": "ecdsa-1.0x0902Bd63695433b5303c150e7fACE75Da05A4a87-S62zdaX8HbUkajsT-1725844149.0x7e85ee11ac699ff5fcf2efcec7bd84c6a591687e4517e8f1d2464029aaaec98d3599211c99edd83c4731aa8bacecc8ccb7136265f1c01ca1aad94807b12325301c" // token
 }
 ```
 
@@ -301,20 +302,20 @@ e.g.
   "type": "trigger.42161.BTCUSDC_10",
   "data": {
     "a": [{
-      "p": "65535.00",    // Price
+      "p": "65535.57",    // Price
       "s": "0.12",        // Size
     },{
-      "p": "65535.00",
-      "s": "0.12",
+      "p": "65555.90",
+      "s": "0.89",
     }],                   // Asks
     "b": [{
-      "p": "65535.00",
-      "s": "0.12",
+      "p": "65301.98",
+      "s": "0.72",
     },{
-      "p": "65535.00",
-      "s": "0.12",
+      "p": "65202.06",
+      "s": "0.81",
     }],                   // Bids
-    "E": 1725844149000   // Event time(Unix timestamp: ms)
+    "E": 1725844149000    // Event time(Unix timestamp: ms)
   }
 }
 ```
