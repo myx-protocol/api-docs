@@ -395,7 +395,7 @@ e.g.
 
 **Stream Name:** `order.{chainId}.{pair}`
 
-To subscribe to messages for all pairs in the chain, set pair to `*`.
+_To subscribe to messages for all pairs in the chain, set pair to `*`._
 
 **Message:**
 
@@ -427,9 +427,13 @@ To subscribe to messages for all pairs in the chain, set pair to `*`.
     "O": "INCREASE",    // Order type: INCREASE/DECREASE
     "S": "LONG",        // Order side: LONG/SHORT
     "y": "LIMIT",       // Trade type: MARKET/LIMIT/TP/SL
-    "cs": "0"           // Cumulative trade size
+    "C": "0"            // Cumulative trade size
     "P": "65535.00",    // Last price
     "x": "FILLED",      // Order status: FILLED/PARTIALLY_FILLED
+    "f": "0.000111",    // Trading fee
+    "F": "0.000111",    // Funding fee
+    "N": "0.000123",    // Network fee
+    "T": "USDC",        // Token of payment of network fee
     "t": 1725844149     // Update time(Unix timestamp: s)
     "E": 1725844149000  // Event time(Unix timestamp: ms)
   }
@@ -454,7 +458,7 @@ To subscribe to messages for all pairs in the chain, set pair to `*`.
 
 **Stream Name:** `position.{chainId}.{pair}`
 
-To subscribe to messages for all pairs in the chain, set pair to `*`.
+_To subscribe to messages for all pairs in the chain, set pair to `*`._
 
 **Message:**
 ```json5
