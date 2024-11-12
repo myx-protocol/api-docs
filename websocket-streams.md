@@ -16,6 +16,7 @@
     - [Response codes and messages](#response-codes-and-messages)
   - [Supported Chains](#supported-chains)
 - [Public Stream information](#public-stream-information)
+  - [Summary Streams](#summary-streams)
   - [Ticker Streams](#ticker-streams)
   - [Candle Streams](#candle-streams)
   - [Orderbook Streams](#orderbook-streams)
@@ -32,6 +33,8 @@
 
 ## Changelog
 
+* November 12, 2024
+  * Add summary streams
 * September 9, 2024
   * Initial release
 
@@ -241,6 +244,37 @@ e.g.
 | Scroll Mainnet | 534352   |
 
 # Public Stream information
+
+## Summary Streams
+
+**Stream Name:** `summary.{chainId}`
+
+**Message:**
+```json5
+{
+  "type": "summary.42161",
+  "data": {
+    "E": 1725844149000,   // Event time(Unix timestamp: ms)
+    "d": [{               
+      "P": "BTCUSDC",     // Pair
+      "C": "0.012",       // Change
+      "p": "65633.66",    // Last price
+      "h": "66123.45",    // High price
+      "l": "65000.00",    // Low price
+      "v": "1.23",        // Volume
+      "T": "80811.32",    // Turnover
+    }, {
+      "P": "ETHUSDC",
+      "C": "0.012",
+      "p": "65633.66",
+      "h": "66123.45",
+      "l": "65000.00",
+      "v": "1.23",
+      "T": "80811.32",
+    }]
+}
+
+```
 
 ## Ticker Streams
 24hr rolling window ticker statistics for a single pair. These are NOT the statistics of the UTC day, but a 24hr rolling window for the previous 24hrs.
